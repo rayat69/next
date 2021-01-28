@@ -1,13 +1,27 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import { useState } from "react";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const [name, setName] = useState(null);
+
+  const click = async () => {
+    const resp = await fetch(`${window.location.origin}/api/hello`);
+    const respData = await resp.json();
+    console.log(respData);
+    setName(respData);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>First Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div>
+        <h3>{name && name.name}</h3>
+        <button onClick={click}>Click me</button>
+      </div>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
@@ -15,7 +29,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
 
@@ -56,10 +70,10 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
       </footer>
     </div>
-  )
+  );
 }
